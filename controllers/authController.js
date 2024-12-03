@@ -14,6 +14,7 @@ exports.registerUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
+    console.log('login user controller called');
     const { email, password } = req.body;
 
     try {

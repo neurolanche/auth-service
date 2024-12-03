@@ -47,13 +47,12 @@ exports.loginUser = async (email, password) => {
         throw new Error('Please verify your email');
     }
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-
-    return token;
+    return jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
 };
 
 exports.verifyOtp = async (email, otp) => {
     const user = await User.findOne({ email });
+    console.log(user);
     if (!user) {
         throw new Error('User not found');
     }
@@ -63,9 +62,7 @@ exports.verifyOtp = async (email, otp) => {
     if (user.otp === otp) {
         user.isVerified = true;
         await user.save();
-
-        const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-        return token;
+        return jwt.sign({userId: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
     } else {
         throw new Error('Invalid OTP');
     }
